@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#292044">
+<title>KittenMe — Tiny steps, happy paws</title>
+<style>
+:root{--ink:#292044;--paper:#fffaff;--pink:#ffb7d5;--lilac:#cdb7ff;--mint:#b8f2dc;--blue:#b9e5ff;--yellow:#fff0a8;--peach:#ffd0b5;--muted:#756987}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:15px;color:var(--ink);font-family:"Courier New",monospace;background:#292044;background-image:linear-gradient(45deg,#342952 25%,transparent 25%),linear-gradient(-45deg,#342952 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#342952 75%),linear-gradient(-45deg,transparent 75%,#342952 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+button,input,select{font:inherit}.app{width:min(100%,520px);margin:auto;background:var(--paper);border:4px solid #171329;box-shadow:8px 8px 0 #171329;padding:14px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px}.logo{font-size:29px;font-weight:900;letter-spacing:-2px}.logo span:nth-child(1){color:#f06fa8}.logo span:nth-child(2){color:#8f78e8}.logo span:nth-child(3){color:#54bca0}.logo span:nth-child(4){color:#e8a83f}.tag{font-size:9px;background:var(--yellow);border:2px solid var(--ink);padding:5px}
+.sub{font-size:10px;color:var(--muted);margin:5px 0 12px}
+.pet-scene{border:3px solid var(--ink);background:linear-gradient(#bdeaff 0 65%,#b8edc9 65%);min-height:210px;display:grid;place-items:center;position:relative;overflow:hidden}
+.sun{position:absolute;right:24px;top:17px;width:31px;height:31px;background:var(--yellow);border:3px solid var(--ink)}.cloud{position:absolute;left:22px;top:32px;font-size:25px;color:white;text-shadow:2px 2px var(--ink)}.flower{position:absolute;bottom:12px;font-size:20px}.f1{left:20px}.f2{right:22px}
+.pet-wrap{text-align:center;z-index:1;transform:translateY(5px)}.pet{width:140px;height:128px;position:relative;margin:auto;animation:bob 1.8s steps(2,end) infinite;cursor:pointer;filter:drop-shadow(4px 4px 0 #0002)}
+@keyframes bob{50%{transform:translateY(-6px)}}.ear{position:absolute;top:3px;width:46px;height:53px;background:#ffb7d5;border:5px solid var(--ink)}.ear.l{left:10px;transform:rotate(-17deg);clip-path:polygon(0 100%,12% 25%,50% 0,100% 100%)}.ear.r{right:10px;transform:rotate(17deg);clip-path:polygon(0 100%,50% 0,88% 25%,100% 100%)}
+.head{position:absolute;left:7px;top:25px;width:126px;height:98px;background:#fff0df;border:5px solid var(--ink);border-radius:38% 38% 34% 34%}.patch{position:absolute;right:3px;top:2px;width:37px;height:29px;background:#cdb7ff;border-left:4px solid var(--ink);border-bottom:4px solid var(--ink);border-radius:0 20px 0 10px}.eye{position:absolute;top:37px;width:8px;height:13px;background:var(--ink)}.eye.l{left:30px}.eye.r{right:30px}.cheek{position:absolute;top:54px;width:16px;height:8px;background:#ff9cbd}.cheek.l{left:13px}.cheek.r{right:13px}.nose{position:absolute;top:55px;left:57px;width:9px;height:7px;background:#ee83a9;clip-path:polygon(50% 100%,0 0,100% 0)}.mouth{position:absolute;top:63px;left:58px;width:8px;height:7px;border-bottom:2px solid var(--ink);border-radius:50%}.whisk{position:absolute;top:59px;width:21px;height:2px;background:var(--ink)}.wl{left:-1px;transform:rotate(8deg)}.wr{right:-1px;transform:rotate(-8deg)}.pet-name{font-weight:bold;font-size:13px;margin-top:2px;background:#fffaff;border:2px solid var(--ink);display:inline-block;padding:3px 12px}
+.mood{text-align:center;font-size:10px;color:var(--muted);min-height:18px;margin:8px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}.stat{border:2px solid var(--ink);padding:6px;background:white}.stat-head{display:flex;justify-content:space-between;font-size:9px;margin-bottom:4px}.bar{height:9px;background:#eee5f5;border:2px solid var(--ink)}.fill{height:100%;background:linear-gradient(90deg,#ff9fca,#c6a7ff,#9fe6cb);transition:width .25s}
+.wallet{display:flex;justify-content:space-between;gap:8px;margin:9px 0;padding:8px;background:#f1eaff;border:2px solid var(--ink);font-size:11px;font-weight:bold}
+.section{margin-top:14px}.section-title{font-size:11px;font-weight:bold;letter-spacing:1px;margin:0 0 7px;display:flex;justify-content:space-between;align-items:center}
+.add-form{border:2px solid var(--ink);padding:9px;background:#fff}.field{display:grid;gap:4px;margin-bottom:8px}.field label{font-size:9px;font-weight:bold}.field input,.field select{width:100%;min-width:0;border:2px solid #b9abc9;background:white;padding:8px;color:var(--ink);font-size:11px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.primary,.secondary,.complete,.filter{border:2px solid var(--ink);cursor:pointer;font-weight:bold}.primary{background:var(--yellow);padding:9px 12px;box-shadow:3px 3px 0 var(--ink);font-size:11px}.secondary{background:white;padding:7px;font-size:10px}.primary:active,.complete:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.task-list{display:grid;gap:7px}.task{border:2px solid var(--ink);background:white;padding:8px;display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.task-name{font-size:11px;font-weight:bold;overflow-wrap:anywhere}.task-meta{font-size:9px;color:var(--muted);margin-top:4px}.reward{font-size:9px;color:#66518b;margin-top:4px}.complete{background:var(--mint);padding:7px;font-size:10px}.complete.done{background:#eee8f4;color:#766b82;box-shadow:none}.task-actions{display:flex;gap:5px;align-items:center}.delete{border:0;background:transparent;color:#8d789d;font-size:16px;cursor:pointer;padding:2px}
+.filters{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.filter{background:white;padding:5px 8px;font-size:9px}.filter.active{background:var(--lilac)}.empty{border:2px dashed #b9abc9;padding:15px;text-align:center;font-size:10px;color:var(--muted)}
+.note{font-size:9px;line-height:1.5;color:var(--muted);margin-top:10px}.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:10px 14px;font-size:11px;border:2px solid white;box-shadow:3px 3px 0 #0006;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}.toast.show{opacity:1}
+@media(max-width:360px){body{padding:8px}.app{padding:10px}.logo{font-size:25px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header><div class="logo"><span>K</span><span>i</span><span>t</span><span>ten</span>Me</div><div class="tag">TINY STEPS CLUB ★</div></header>
+<p class="sub">Little steps for you. Little purrs for your pocket pal.</p>
+
+<section class="pet-scene" aria-label="Mochi's garden">
+  <div class="sun"></div><div class="cloud">☁</div><div class="flower f1">🌼</div><div class="flower f2">🌷</div>
+  <div class="pet-wrap"><div class="pet" id="pet" title="Give your kitten a pat"><div class="ear l"></div><div class="ear r"></div><div class="head"><div class="patch"></div><div class="eye l"></div><div class="eye r"></div><div class="cheek l"></div><div class="cheek r"></div><div class="nose"></div><div class="mouth"></div><div class="whisk wl"></div><div class="whisk wr"></div></div></div><div class="pet-name" id="petName">Mochi</div></div>
+</section>
+<div class="mood" id="mood" aria-live="polite">“Hi friend! Let's take today one tiny step at a time.”</div>
+
+<section class="stats" aria-label="Kitten stats">
+  <div class="stat"><div class="stat-head"><span>🍓 NOURISHMENT</span><b id="foodN">75%</b></div><div class="bar"><div class="fill" id="foodB" style="width:75%"></div></div></div>
+  <div class="stat"><div class="stat-head"><span>💖 HAPPINESS</span><b id="happyN">75%</b></div><div class="bar"><div class="fill" id="happyB" style="width:75%"></div></div></div>
+  <div class="stat"><div class="stat-head"><span>⚡ ENERGY</span><b id="energyN">75%</b></div><div class="bar"><div class="fill" id="energyB" style="width:75%"></div></div></div>
+  <div class="stat"><div class="stat-head"><span>🫧 CLEANLINESS</span><b id="cleanN">75%</b></div><div class="bar"><div class="fill" id="cleanB" style="width:75%"></div></div></div>
+  <div class="stat" style="grid-column:1/-1"><div class="stat-head"><span>🏡 COMFORT</span><b id="comfortN">75%</b></div><div class="bar"><div class="fill" id="comfortB" style="width:75%"></div></div></div>
+</section>
+<div class="wallet"><span>⭐ LEVEL <b id="level">1</b> · XP <b id="xp">0</b></span><span>🪙 <b id="coins">0</b> coins</span></div>
+
+<section class="section">
+  <h2 class="section-title">♡ ADD A LITTLE QUEST <span style="font-weight:normal;color:#756987">your tasks, your way</span></h2>
+  <form class="add-form" id="taskForm">
+    <div class="field"><label for="taskTitle">WHAT WOULD YOU LIKE TO DO?</label><input id="taskTitle" maxlength="70" placeholder="e.g. Put laundry in the basket" required></div>
+    <div class="form-row">
+      <div class="field"><label for="category">HELP YOUR KITTEN WITH</label><select id="category"><option value="food">🍓 Nourishment</option><option value="happy">💖 Happiness</option><option value="energy">⚡ Energy</option><option value="clean">🫧 Cleanliness</option><option value="comfort">🏡 Comfort</option><option value="any">⭐ General XP</option></select></div>
+      <div class="field"><label for="effort">TASK SIZE</label><select id="effort"><option value="tiny">Tiny step · 5 XP</option><option value="small" selected>Small · 10 XP</option><option value="medium">Medium · 20 XP</option><option value="big">Big effort · 30 XP</option></select></div>
+    </div>
+    <div class="field"><label for="repeat">WHEN DOES IT REPEAT?</label><select id="repeat"><option value="once">Just once</option><option value="daily">Every day</option></select></div>
+    <button class="primary" type="submit">＋ ADD QUEST</button>
+  </form>
+</section>
+
+<section class="section">
+  <h2 class="section-title">♡ YOUR QUEST BOARD <span id="progressText" style="font-weight:normal;color:#756987">0 done today</span></h2>
+  <div class="filters" role="group" aria-label="Filter tasks">
+    <button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="active">TO DO</button><button class="filter" data-filter="done">DONE</button>
+  </div>
+  <div class="task-list" id="taskList"></div>
+</section>
+<p class="note">A gentle space, not another source of pressure. Missed tasks don't take away levels, coins or love. Daily quests refresh for a new day; one-time quests stay until you complete them. Your progress is saved on this device.</p>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(()=>{
+const KEY="kittenMeStage2";
+const defaults={name:"Mochi",stats:{food:75,happy:75,energy:75,clean:75,comfort:75},xp:0,coins:0,tasks:[],lastDay:localDay(),lastDecay:Date.now()};
+let data;
+function localDay(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+try{data={...defaults,...JSON.parse(localStorage.getItem(KEY)||"null")};data.stats={...defaults.stats,...(data.stats||{})};data.tasks=Array.isArray(data.tasks)?data.tasks:[]}catch(e){data={...defaults,stats:{...defaults.stats},tasks:[]}}
+const $=id=>document.getElementById(id), clamp=n=>Math.max(0,Math.min(100,n));
+const labels={food:"Nourishment",happy:"Happiness",energy:"Energy",clean:"Cleanliness",comfort:"Comfort",any:"General XP"};
+const icons={food:"🍓",happy:"💖",energy:"⚡",clean:"🫧",comfort:"🏡",any:"⭐"};
+const effortXP={tiny:5,small:10,medium:20,big:30};
+let filter="all",toastTimer;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){notify("Couldn't save on this device. Check browser storage settings.")}}
+function notify(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2300)}
+function say(msg){$("mood").textContent="“"+msg+"”"}
+function renderStats(){const map={food:"food",happy:"happy",energy:"energy",clean:"clean",comfort:"comfort"};Object.entries(map).forEach(([id,key])=>{const v=Math.round(data.stats[key]);$(id+"N").textContent=v+"%";$(id+"B").style.width=v+"%"});$("xp").textContent=data.xp;$("coins").textContent=data.coins;$("level").textContent=1+Math.floor(data.xp/100);$("petName").textContent=data.name}
+function taskReward(t){return effortXP[t.effort]||10}
+function renderTasks(){
+ const list=$("taskList"),today=localDay();
+ const todays=data.tasks.filter(t=>t.repeat==="once"||t.day===today);
+ const done=todays.filter(t=>t.done).length;
+ $("progressText").textContent=done+" of "+todays.length+" done today";
+ const visible=todays.filter(t=>filter==="all"||(filter==="active"&&!t.done)||(filter==="done"&&t.done));
+ list.innerHTML="";
+ if(!visible.length){const d=document.createElement("div");d.className="empty";d.textContent=todays.length?"Nothing in this view. You're doing okay. 💜":"No quests yet. Add one tiny step above!";list.appendChild(d);return}
+ visible.forEach(t=>{
+  const card=document.createElement("article");card.className="task";
+  const info=document.createElement("div");
+  const title=document.createElement("div");title.className="task-name";title.textContent=t.title;
+  if(t.done){title.style.textDecoration="line-through";title.style.opacity=".65"}
+  const meta=document.createElement("div");meta.className="task-meta";meta.textContent=(icons[t.category]||"⭐")+" "+labels[t.category]+" · "+(t.repeat==="daily"?"Daily quest":"One-time quest");
+  const reward=document.createElement("div");reward.className="reward";reward.textContent="+"+taskReward(t)+" XP · +"+Math.max(1,Math.round(taskReward(t)/5))+" coins"+(t.category!=="any"?" · helps "+labels[t.category].toLowerCase():"");
+  info.append(title,meta,reward);
+  const controls=document.createElement("div");controls.className="task-actions";
+  const btn=document.createElement("button");btn.className="complete"+(t.done?" done":"");btn.textContent=t.done?"✓ DONE":"COMPLETE";btn.disabled=t.done;btn.addEventListener("click",()=>completeTask(t.id));
+  const del=document.createElement("button");del.className="delete";del.setAttribute("aria-label","Delete task");del.textContent="×";del.addEventListener("click",()=>deleteTask(t.id));
+  controls.append(btn,del);card.append(info,controls);list.appendChild(card);
+ });
+}
+function render(){renderStats();renderTasks();save()}
+function completeTask(id){
+ const t=data.tasks.find(x=>x.id===id);if(!t||t.done)return;
+ t.done=true;t.completedAt=Date.now();const xp=taskReward(t),coins=Math.max(1,Math.round(xp/5));
+ data.xp+=xp;data.coins+=coins;
+ if(t.category!=="any")data.stats[t.category]=clamp(data.stats[t.category]+Math.max(5,Math.round(xp/2)));
+ else data.stats.happy=clamp(data.stats.happy+3);
+ render();say(["You did it! I'm so proud of you!","One tiny step is still a step. Purrfect!","Quest complete! We make a great team!"][Math.floor(Math.random()*3)]);
+ notify("Quest complete! +"+xp+" XP · +"+coins+" coins ✨");
+}
+function deleteTask(id){data.tasks=data.tasks.filter(t=>t.id!==id);render();notify("Quest removed. No worries!")}
+$("taskForm").addEventListener("submit",e=>{
+ e.preventDefault();const title=$("taskTitle").value.trim();if(!title)return;
+ data.tasks.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),title,category:$("category").value,effort:$("effort").value,repeat:$("repeat").value,done:false,day:localDay()});
+ $("taskTitle").value="";render();notify("A new little quest! You’ve got this 💜");
+});
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderTasks()}));
+$("pet").addEventListener("click",()=>{data.stats.happy=clamp(data.stats.happy+2);render();say("Prrrrr! Thanks for the pats.");notify("+2 happiness for a cuddle 💗")});
+function dailyRefresh(){
+ const today=localDay();
+ if(data.lastDay!==today){
+  data.tasks.forEach(t=>{if(t.repeat==="daily"){t.done=false;t.day=today}});
+  data.lastDay=today;
+ }
+ // Gentle passive decay: at most 2 points per elapsed day, no stat ever reaches zero from decay.
+ const now=Date.now(),elapsed=Math.floor((now-(data.lastDecay||now))/86400000);
+ if(elapsed>0){Object.keys(data.stats).forEach(k=>data.stats[k]=Math.max(20,data.stats[k]-Math.min(2,elapsed)));data.lastDecay=now}
+ render();
+}
+dailyRefresh();
+})();
+</script>
+</body>
+</html>
