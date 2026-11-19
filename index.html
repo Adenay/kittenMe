@@ -133,9 +133,9 @@ function dailyRefresh(){
   data.tasks.forEach(t=>{if(t.repeat==="daily"){t.done=false;t.day=today}});
   data.lastDay=today;
  }
- // Gentle passive decay: at most 2 points per elapsed day, no stat ever reaches zero from decay.
+ // Gentle passive decay: at most 40 points per elapsed day, no stat ever reaches zero from decay.
  const now=Date.now(),elapsed=Math.floor((now-(data.lastDecay||now))/86400000);
- if(elapsed>0){Object.keys(data.stats).forEach(k=>data.stats[k]=Math.max(20,data.stats[k]-Math.min(2,elapsed)));data.lastDecay=now}
+ if(elapsed>0){Object.keys(data.stats).forEach(k=>data.stats[k]=Math.max(20,data.stats[k]-Math.min(40,elapsed)));data.lastDecay=now}
  render();
 }
 dailyRefresh();
